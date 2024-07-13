@@ -1,71 +1,75 @@
 @font-face {
-    font-family: 'Lilita One';
-    src: url('../assets/lilitaone-regular-webfont.ttf') format('truetype');
+  font-family: "Lilita One";
+  src: url("../assets/lilitaone-regular-webfont.ttf") format("truetype");
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 :root {
-    --map-container-bg-color: rgb(56, 50, 50);
+  --map-container-bg-color: rgb(56, 50, 50);
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 #bgVideo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -1000;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
 }
 
 .container {
-    display: grid;
-    color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
 }
 
-.container .title {
-    font-size: 40px;
+.title {
+  font-size: 40px;
 }
 
 .map-container {
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    flex-direction: column;
-    background-color: white;
-    z-index: 999;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  flex-direction: column;
+  background-color: white;
+  z-index: 999;
 }
 
 .map-container .map-img {
-    width: 300px;
-    z-index: 999;
+  width: 300px;
+  z-index: 999;
 }
 
 .map-container .map-info {
-    width: auto;
-    min-width: 100% !important;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    background: var(--map-container-bg-color);
-    line-height: 0px;
-    z-index: 1000;
+  width: auto;
+  min-width: 100% !important;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: var(--map-container-bg-color);
+  line-height: 0px;
+  z-index: 1000;
+  top: 0;
 }
 
 .map-container .map-info * {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .map-container .map-info .map-name {
-    margin-top: 30px;
+  margin-top: 30px;
 }
