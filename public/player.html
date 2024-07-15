@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Profile</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        border: 2px solid blue;
+        top: 0;
+        left: 0;
+      }
+
+      .favouriteBrawlerDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30vw;
+        height: 100%;
+        background: url("../assets/brawl_lobby_animated.mp4");
+        border: 2px solid blue;
+      }
+
+      .profileInfo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70vw;
+        height: 100%;
+        background: url("../assets/profile_background.jpg");
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="favouriteBrawlerDiv">
+        <div class="brawlerImg"></div>
+        <div class="brawlerInfo">
+          <h3>FAVOURITE BRAWLER</h3>
+          <div class="brawlerName"></div>
+        </div>
+      </div>
+
+      <div class="profileInfo">
+        <h3>PROFILE INFO</h3>
+        <div id="playerData">sdfgsssdgfsg</div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const pathParts = window.location.pathname.split("/");
+        const playerTag = pathParts[pathParts.length - 1];
+
+        try {
+          const response = await fetch(`/api/player/${playerTag}`);
+          const playerData = await response.json();
+          console.log(playerData);
+
+          let highestTrophieBrawler;
+          const brawlers = playerData.brawlers;
+          brawlers.forEach((brawler) => {
+            if (!highestTrophieBrawler) {
+              highestTrophieBrawler = brawler;
+            }
+
+            if (brawler.trophies > highestTrophieBrawler.trophies) {
+              highestTrophieBrawler = brawler;
+            }
+          });
+
+          document.querySelector(".brawlerName").innerText =
+            highestTrophieBrawler.name;
+        } catch (error) {
+          document.getElementById("playerData").innerText =
+            "Error loading player data";
+        }
+      });
+    </script>
+  </body>
+</html>
