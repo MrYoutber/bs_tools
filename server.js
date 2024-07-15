@@ -9,7 +9,7 @@ const API_KEY = process.env.API_KEY;
 
 // Serve static files from the "public" directory
 app.use(express.static("public"));
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 app.get("/api/events", async (req, res) => {
   const response = await fetch(
@@ -58,7 +58,7 @@ app.post("/api/saveTags", (req, res) => {
     fs.readFile("public/meta/tags.txt", "utf8", (err, data) => {
       if (err) {
         console.error(err);
-        return res.status(500).send("Error reading tags file");
+        return res.status(500).send();
       }
       if (data.includes(tag)) {
         return;
@@ -66,7 +66,7 @@ app.post("/api/saveTags", (req, res) => {
       fs.appendFile("public/meta/tags.txt", tag + "\n", (err) => {
         if (err) {
           console.error(err);
-          return res.status(500).send("Error writing tag to file");
+          return res.status(500).send();
         }
       });
     });
@@ -85,6 +85,16 @@ app.post("/api/battlelog", async (req, res) => {
   );
   const data = await response.json();
   res.json(data);
+});
+
+app.get("/api/tags", async (req, res) => {
+  fs.readFile("public/meta/tags.txt", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send();
+    }
+    res.json(data.split("\n"));
+  });
 });
 
 const PORT = process.env.PORT || 80;
