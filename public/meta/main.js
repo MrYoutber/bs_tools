@@ -1,6 +1,9 @@
+// get the tagsArray from the tags.js file
+import tagsArray from "./tags.js";
+const newTagsArray = [];
+
 window.addEventListener("DOMContentLoaded", (event) => {
   const container = document.querySelector(".container");
-  const tagsArray = [];
   let matches = 0;
   let victories = 0;
   let losses = 0;
@@ -8,9 +11,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   async function fetchRankingAndBattlelogs() {
     try {
-      // fetch the tags from the tags.txt file
-      const tagsResponse = await fetch("/api/tags");
-      const tagsData = await tagsResponse.json();
+      // use the tagsArray to fetch the battlelogs
+      const tagsData = tagsArray;
 
       // Use Promise.all to wait for all battlelog fetches to complete
       await Promise.all(
@@ -38,7 +40,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
               teams.forEach((teamPlayer, index) => {
                 const teamPlayerTag = teamPlayer.tag.slice(1);
                 if (!tagsArray.includes(teamPlayerTag))
-                  tagsArray.push(teamPlayerTag);
+                  newTagsArray.push(teamPlayerTag);
 
                 const brawler = teamPlayer.brawler.name;
 
@@ -54,7 +56,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 team.forEach((teamPlayer) => {
                   const teamPlayerTag = teamPlayer.tag.slice(1);
                   if (!tagsArray.includes(teamPlayerTag))
-                    tagsArray.push(teamPlayerTag);
+                    newTagsArray.push(teamPlayerTag);
 
                   const brawler = teamPlayer.brawler.name;
 
@@ -69,7 +71,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
               const battleTeams = battle.teams;
               if (!battleTeams) {
                 console.error("No teams found in battle");
-                console.log(battle.mode);
                 return;
               }
 
@@ -99,7 +100,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                   team.forEach((teamPlayer) => {
                     const teamPlayerTag = teamPlayer.tag.slice(1);
                     if (!tagsArray.includes(teamPlayerTag))
-                      tagsArray.push(teamPlayerTag);
+                      newTagsArray.push(teamPlayerTag);
 
                     const brawler = teamPlayer.brawler.name;
 
@@ -109,7 +110,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                   team.forEach((teamPlayer) => {
                     const teamPlayerTag = teamPlayer.tag.slice(1);
                     if (!tagsArray.includes(teamPlayerTag))
-                      tagsArray.push(teamPlayerTag);
+                      newTagsArray.push(teamPlayerTag);
 
                     const brawler = teamPlayer.brawler.name;
 
@@ -141,7 +142,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // display the results
     const results = document.createElement("div");
-    console.log(brawlersUsed);
     await Object.entries(brawlersUsed).forEach(([brawler, record]) => {
       const brawlerDiv = document.createElement("div");
       const brawlerInfo = document.createElement("p");
@@ -158,7 +158,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ tagsArray }),
+      body: JSON.stringify({ newTagsArray }),
     })
       .then((response) => response.text())
       .then((data) => {

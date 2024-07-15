@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import fetch from "node-fetch";
 import fs from "fs";
+import tagsArray from "./public/meta/tags.js";
 
 dotenv.config();
 const app = express();
@@ -52,24 +53,18 @@ app.get("/api/ranking/global", async (req, res) => {
 
 app.post("/api/saveTags", (req, res) => {
   // decode body
-  const tagsArray = req.body;
-  tagsArray.tagsArray.forEach((tag) => {
+  const newTagsArray = req.body;
+  console.log(newTagsArray);
+  newTagsArray.tagsArray.forEach((tag) => {
     // check if the file contains the tag
-    fs.readFile("public/meta/tags.txt", "utf8", (err, data) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send();
-      }
-      if (data.includes(tag)) {
-        return;
-      }
+    if (!tagsArray.includes(tag)) {
       fs.appendFile("public/meta/tags.txt", tag + "\n", (err) => {
         if (err) {
           console.error(err);
           return res.status(500).send();
         }
       });
-    });
+    }
   });
 });
 
@@ -85,16 +80,6 @@ app.post("/api/battlelog", async (req, res) => {
   );
   const data = await response.json();
   res.json(data);
-});
-
-app.get("/api/tags", async (req, res) => {
-  fs.readFile("public/meta/tags.txt", "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send();
-    }
-    res.json(data.split("\n"));
-  });
 });
 
 const PORT = process.env.PORT || 80;
