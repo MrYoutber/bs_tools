@@ -1,0 +1,3 @@
+Main: #121212
+Secondary: #BB86FC
+Accent: #03DAC6

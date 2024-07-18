@@ -22,3 +22,8 @@ window.addEventListener("keydown", (e) => {
     window.location.href = `/player/${playerTagValue}`;
   }
 });
+
+// get input change in playerTag and transform all the text to uppercase
+playerTag.addEventListener("input", () => {
+  playerTag.value = playerTag.value.toUpperCase();
+});

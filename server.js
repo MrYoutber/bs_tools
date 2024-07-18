@@ -148,5 +148,32 @@ app.get("/player/:tag", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "player.html"));
 });
 
+app.get("/api/club/:tag/members", async (req, res) => {
+  const clubTag = req.params.tag;
+  if (!clubTag) {
+    return res.status(400).send("Club tag is required");
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.brawlstars.com/v1/clubs/%23${clubTag}/members`,
+      {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      }
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(`Error fetching data for club ${clubTag}:`, error);
+    res.status(500).send("Error fetching club data");
+  }
+});
+
+app.get("/club/:tag", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "player.html"));
+});
+
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
